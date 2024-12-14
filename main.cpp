@@ -2,11 +2,9 @@
 #include <iostream>
 #include <string>
 
-bool expContinue(std::string expression) {
-    if() {
+//если у тебя в хедер файле есть инклуды , то они тут не нужны, т.к ты и так ссылаешься к своему хедер файлу, так что удали когда зайдешь)
 
-    }
-}
+
 
 int main(){
     std::string expression;
