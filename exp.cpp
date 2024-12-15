@@ -52,14 +52,22 @@
 //15.12
 //-----------------------------------------------------
 
-int main()
+/*int main()
 {
     int size;
     std::cin >> size;
-    
-    game::Tictactoe classik(size);
+
+    std::string name1; 
+    std::cin >> name1;
+
+    std::string name2;
+    std::cin >> name2;
+
+    game::Tictactoe classik(size, name1, name2);
 
     classik.printboard();
 
     return 0;
-}
+}*/
+
+//------------------------------------------------------

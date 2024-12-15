@@ -15,13 +15,14 @@ namespace game
     {
     private:
         size_t size;
-        Gamer player1;
-        Gamer player2;
 
         std::vector<std::vector<char>> board;  
 
     public:
-        Tictactoe(size_t s);
+        Tictactoe(size_t s, const std::string name1, const std::string name2);
         void printboard();
+
+        Gamer player1;
+        Gamer player2;
     };
 }
