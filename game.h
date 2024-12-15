@@ -18,6 +18,10 @@ namespace game
         Gamer player1;
         Gamer player2;
 
+        std::vector<std::vector<char>> board;  
+
+    public:
+        Tictactoe(size_t s);
         void printboard();
     };
 }
