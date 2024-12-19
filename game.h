@@ -9,6 +9,7 @@ namespace game
     {
         std::string name;
         char sym;
+        bool bot;
     };
 
     class Tictactoe
@@ -24,5 +25,15 @@ namespace game
 
         Gamer player1;
         Gamer player2;
+
+        bool move(size_t row, size_t col, char sym);
+        void play_vs();
+        bool win(char sym);
+        bool draw();
+
+        void play_ai();
+        void bot_move();
+
+        Gamer bot;
     };
 }
