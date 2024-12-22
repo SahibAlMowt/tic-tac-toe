@@ -199,7 +199,7 @@ int main(){
             std::cout << "--------------------------------------------------------------------------------\n";
             std::cout << "                    Game mode selected: " << ourmode << "               \n";
             std::cout << "--------------------------------------------------------------------------------\n";
-            std::cout << "                 Enter your nickname for this game:\n";
+            std::cout << "                    Enter your nickname for this game:\n";
             std::getline(std::cin, name1);
 
             if(ourmode == "player vs player"){
@@ -208,7 +208,7 @@ int main(){
                 //std::cout << "                    Choose what you will play for\n";
                 game::Tictactoe tictactoe(n, name1, name2);
                 tictactoe.play_vs();
-            }else if(ourmode == ""){
+            }else if(ourmode == "player vs AI"){
                 ourlevel = level();
 
                 std::cout << "--------------------------------------------------------------------------------\n";

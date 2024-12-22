@@ -2,6 +2,8 @@
 #include <vector>
 #include <ctime>
 #include <string>
+#include <limits>
+#include <cctype>
 
 namespace game 
 {
@@ -31,9 +33,12 @@ namespace game
         bool win(char sym);
         bool draw();
 
-        void play_ai();
+        void play_ai_easy();
         void bot_move();
 
         Gamer bot;
+
+        void play_ai_hard();
+        void bot_cmove();
     };
 }

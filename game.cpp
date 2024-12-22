@@ -29,10 +29,25 @@ game::Tictactoe::Tictactoe(size_t s, const std::string name1, const std::string 
     size = s;
     board = std::vector<std::vector<char>>(s, std::vector<char>(s, ' '));
 
-    player1 = {name1, 'O', false};
-    player2 = {name2, 'X', false};
+    char c;
+    std::cout << "what char ";
+    std::cin >> c;
 
-    bot = {"bot", 'Y', true};
+    if(c == 'O')
+    {
+        player1 = {name1, 'O', false};
+        player2 = {name2, 'X', false};
+
+        bot = {"bot", 'X', true};
+    }
+    else
+    {
+        player1 = {name1, 'X', false};
+        player2 = {name2, 'O', false};
+
+        bot = {"bot", 'O', true};
+    }
+    
 }
 
 bool game::Tictactoe::move(size_t row, size_t col, char sym)
@@ -48,7 +63,16 @@ bool game::Tictactoe::move(size_t row, size_t col, char sym)
 
 void game::Tictactoe::play_vs()
 {
-    bool current = true;
+    bool current;
+    if(player1.sym == 'X')
+    {
+        current = true;
+    }
+    else
+    {
+        current = false;
+    }
+     
     bool gameplay = true;
 
     while(gameplay)
@@ -69,11 +93,37 @@ void game::Tictactoe::play_vs()
         std::cout << (*player).name << " play '" << (*player).sym << "'\t";
 
         size_t row;
-        std::cin >> row;
+        while (true) 
+        {
+            std::cin >> row;
+            if (std::cin.fail()) 
+            {
+                std::cin.clear(); 
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); 
+                std::cout << "dobavish syuda chto nujen int";
+            } 
+            else 
+            {
+                break; 
+            }
+        }
         row -= 1;
 
         size_t col;
-        std::cin >> col;
+        while (true) 
+        {
+            std::cin >> col;
+            if (std::cin.fail()) 
+            {
+                std::cin.clear(); 
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); 
+                std::cout << "dobavish syuda chto nujen int";
+            } 
+            else 
+            {
+                break; 
+            }
+        }
         col -= 1;
 
         if (!move(row, col, (*player).sym)) 
@@ -167,9 +217,18 @@ bool game::Tictactoe::draw()
     return true;
 }
 
-void game::Tictactoe::play_ai()
+void game::Tictactoe::play_ai_easy()
 {
-    bool current = true;
+    bool current;
+    if(player1.sym == 'X')
+    {
+        current = true;
+    }
+    else
+    {
+        current = false;
+    }
+
     bool gameplay = true;
 
     while(gameplay) 
@@ -184,12 +243,38 @@ void game::Tictactoe::play_ai()
             std::cout << (*player).name << " play '" << (*player).sym << "'\n";
 
             size_t row;
-            std::cin >> row;
+            while (true) 
+            {
+                std::cin >> row;
+                if (std::cin.fail()) 
+                {
+                    std::cin.clear(); 
+                    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); 
+                    std::cout << "dobavish syuda chto nujen int";
+                } 
+                else 
+                {
+                    break; 
+                }
+            }
             row -= 1;
 
             size_t col;
-            std::cin >> col;
-            col -= 1;
+            while (true) 
+            {
+                std::cin >> col;
+                if (std::cin.fail()) 
+                {
+                    std::cin.clear(); 
+                    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); 
+                    std::cout << "dobavish syuda chto nujen int";
+                } 
+                else 
+                {
+                    break; 
+                }
+            }
+             col -= 1;
 
             if (!move(row, col, (*player).sym)) 
             {
@@ -237,3 +322,136 @@ void game::Tictactoe::bot_move()
     std::cout << "bot plays\n";
     move(row, col, bot.sym);
 }
+
+void game::Tictactoe::play_ai_hard()
+{
+    bool current;
+    if(player1.sym == 'X')
+    {
+        current = true;
+    }
+    else
+    {
+        current = false;
+    }
+
+    bool gameplay = true;
+
+    while(gameplay) 
+    {
+        printboard();
+
+        const Gamer *player;
+
+        if(current) 
+        {
+            player = &player1;
+            std::cout << (*player).name << " play '" << (*player).sym << "'\n";
+
+            size_t row;
+            while (true) 
+            {
+                std::cin >> row;
+                if (std::cin.fail()) 
+                {
+                    std::cin.clear(); 
+                    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); 
+                    std::cout << "dobavish syuda chto nujen int";
+                } 
+                else 
+                {
+                    break; 
+                }
+            }
+            row -= 1;
+
+            size_t col;
+            while (true) 
+            {
+                std::cin >> col;
+                if (std::cin.fail()) 
+                {
+                    std::cin.clear(); 
+                    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); 
+                    std::cout << "dobavish syuda chto nujen int";
+                } 
+                else 
+                {
+                    break; 
+                }
+            }
+            col -= 1;
+
+            if (!move(row, col, (*player).sym)) 
+            {
+                std::cout << "try again.\n";
+                continue;
+            }
+        } 
+        else 
+        {
+            player = &bot;
+            bot_cmove();
+        }
+
+        if(win((*player).sym))
+        {
+            printboard();
+            std::cout << (*player).name << " wins\n";
+            gameplay = false;
+        }
+        else if(draw())
+        {
+            printboard();
+            std::cout << "draw\n";
+            gameplay = false;
+        }
+        else
+        {
+            current = !current;
+        }
+    }
+}
+
+void game::Tictactoe::bot_cmove()
+{
+    for(size_t i = 0; i < size; i++)
+    {
+        for(size_t j = 0; j < size; j++)
+        {
+            if(board[i][j] == ' ')
+            {
+                board[i][j] = bot.sym;
+                if(win(bot.sym))
+                {
+                    std::cout << "bot plays\n";
+                    move(i, j, bot.sym);
+                    return;
+                }
+                board[i][j] = ' ';
+            }
+        }
+    }
+
+    for(size_t i = 0; i < size; i++)
+    {
+        for(size_t j = 0; j < size; j++)
+        {
+            if(board[i][j] == ' ')
+            {
+                board[i][j] = player1.sym;
+                if(win(player1.sym))
+                {
+                    board[i][j] = ' ';
+                    std::cout << "bot plays\n";
+                    move(i, j, bot.sym);
+                    return;
+                }
+                board[i][j] = ' ';
+            }
+        }
+    }
+
+    bot_move();
+}
+
