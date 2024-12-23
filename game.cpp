@@ -291,6 +291,7 @@ void game::Tictactoe::play_ai_easy()
         if(win((*player).sym))
         {
             printboard();
+            podsvetka((*player).sym);
             std::cout << (*player).name << " wins\n";
             gameplay = false;
         }
@@ -455,3 +456,40 @@ void game::Tictactoe::bot_cmove()
     bot_move();
 }
 
+void game::Tictactoe::podsvetka(char sym) 
+{
+    std::string RED = "\033[41m";
+    std::string RESET = "\033[0m";
+
+    bool highlighted = false;
+    bool row = true;
+    for(size_t i = 0; i < size; i++)
+    {
+        for(size_t j = 0; j < size; j++)
+        {
+            if(board[i][j] != sym)
+            {
+                row = false;
+                break;
+            }
+        }
+        if (row) {
+            for (size_t r = 0; r < size; r++) {
+                for (size_t c = 0; c < size; c++) {
+                    if (r == i) {
+                        std::cout << RED << " " << board[r][c] << " " << RESET;
+                    } else {
+                        std::cout << " " << board[r][c] << " ";
+                    }
+                    if (c < size - 1) std::cout << "|";
+                }
+                std::cout << "\n";
+                if (r < size - 1) std::cout << std::string(size * 4 - 1, '-') << "\n";
+            }
+            highlighted = true;
+            break;
+        }
+    }
+    if (highlighted) return;
+}
+    

@@ -4,6 +4,8 @@
 #include <string>
 #include <limits>
 #include <cctype>
+#include <chrono> //
+#include <thread> //
 
 namespace game 
 {
@@ -40,5 +42,7 @@ namespace game
 
         void play_ai_hard();
         void bot_cmove();
+
+        void podsvetka(char sym);
     };
 }

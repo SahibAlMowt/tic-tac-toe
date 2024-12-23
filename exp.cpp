@@ -152,7 +152,7 @@ int main()
 
     game::Tictactoe classik(size, name1, name2);
 
-    classik.play_vs();
+    classik.play_ai_easy();
 
     return 0;
 }
