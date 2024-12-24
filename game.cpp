@@ -291,7 +291,6 @@ void game::Tictactoe::play_ai_easy()
         if(win((*player).sym))
         {
             printboard();
-            podsvetka((*player).sym);
             std::cout << (*player).name << " wins\n";
             gameplay = false;
         }
@@ -456,40 +455,95 @@ void game::Tictactoe::bot_cmove()
     bot_move();
 }
 
-void game::Tictactoe::podsvetka(char sym) 
-{
-    std::string RED = "\033[41m";
-    std::string RESET = "\033[0m";
+//----------------------------------------------------------------------------------------
 
-    bool highlighted = false;
-    bool row = true;
-    for(size_t i = 0; i < size; i++)
+void game::Tictactoe::podsvetka() 
+{
+    std::string line = std::string(size * 4 - 1, '-'); 
+
+    for (size_t i = 0; i != size; i++)
     {
-        for(size_t j = 0; j < size; j++)
+        for (size_t j = 0; j != size; j++)
         {
-            if(board[i][j] != sym)
+            
+            bool isHighlighted = (i == rgb_row_int()) || (j = rgb_col_int());
+            
+            if (isHighlighted)
             {
-                row = false;
-                break;
+                std::cout << "\033[31m"; 
+            }
+            
+            std::cout << " " << board[i][j] << " ";
+            
+            if (isHighlighted)
+            {
+                std::cout << "\033[0m"; 
+            }
+            
+            if (j < size - 1)
+            {
+                std::cout << "|";
             }
         }
-        if (row) {
-            for (size_t r = 0; r < size; r++) {
-                for (size_t c = 0; c < size; c++) {
-                    if (r == i) {
-                        std::cout << RED << " " << board[r][c] << " " << RESET;
-                    } else {
-                        std::cout << " " << board[r][c] << " ";
-                    }
-                    if (c < size - 1) std::cout << "|";
-                }
-                std::cout << "\n";
-                if (r < size - 1) std::cout << std::string(size * 4 - 1, '-') << "\n";
-            }
-            highlighted = true;
-            break;
+        std::cout << "\n";
+
+        if (i < size - 1)
+        {
+            std::cout << line << "\n";
         }
     }
-    if (highlighted) return;
+    std::cout << "\n";
 }
     
+
+bool game::Tictactoe::rgb_row(const std::vector<std::vector<char>> &matrix, int row) 
+{
+    char firstChar = matrix[row][0];
+    for (size_t col = 1; col < matrix.size(); col++) 
+    {
+        if (matrix[row][col] != firstChar) 
+        {
+            return false;
+        }
+    }
+    return true;
+}
+
+int game::Tictactoe::rgb_row_int()
+{
+    for(size_t i = 0; i < size; i++)
+    {
+        if(rgb_row(board, i))
+        {
+            return i;
+        }
+    }
+    return -1;
+}
+
+bool game::Tictactoe::rgb_col(const std::vector<std::vector<char>> &matrix, int col) 
+{
+    char firstChar = matrix[0][col];
+    for (size_t row = 1; row < matrix.size(); row++) 
+    {
+        if (matrix[row][col] != firstChar) 
+        {
+            return false;
+        }
+    }
+    return true;
+}
+
+int game::Tictactoe::rgb_col_int()
+{
+    for(size_t i = 0; i < size; i++)
+    {
+        if(rgb_col(board, i))
+        {
+            return i;
+        }
+    }
+    return -1;
+}
+
+//----------------------------------------------------------------------------------------

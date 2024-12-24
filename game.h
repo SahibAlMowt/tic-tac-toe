@@ -6,6 +6,8 @@
 #include <cctype>
 #include <chrono> //
 #include <thread> //
+#include <functional>
+
 
 namespace game 
 {
@@ -43,6 +45,14 @@ namespace game
         void play_ai_hard();
         void bot_cmove();
 
-        void podsvetka(char sym);
+    //---------------------------------------------------
+
+        void podsvetka();
+
+        bool rgb_row(const std::vector<std::vector<char>> &matrix, int row);
+        int rgb_row_int();
+
+        bool rgb_col(const std::vector<std::vector<char>> &matrix, int col);
+        int rgb_col_int();
     };
 }
