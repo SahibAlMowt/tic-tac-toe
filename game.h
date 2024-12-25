@@ -4,9 +4,7 @@
 #include <string>
 #include <limits>
 #include <cctype>
-#include <chrono> //
-#include <thread> //
-#include <functional>
+#include <stdexcept>
 
 
 namespace game 
@@ -42,17 +40,25 @@ namespace game
 
         Gamer bot;
 
-        void play_ai_hard();
+        void play_ai_medium();
         void bot_cmove();
 
     //---------------------------------------------------
 
-        void podsvetka();
-
-        bool rgb_row(const std::vector<std::vector<char>> &matrix, int row);
-        int rgb_row_int();
-
-        bool rgb_col(const std::vector<std::vector<char>> &matrix, int col);
-        int rgb_col_int();
+        void update_score(const Gamer& player);
+        std::string give_score();
+        void hnowValid(std::string& expression);
+        bool hisvalid(std::string& answer, int a);
     };
 }
+
+bool isvalid(const std::string& answer, int a);
+void nowValid(std::string& expression);
+void validateAnswer(const std::string& answer, int condition);
+bool hello();
+bool againHello();
+int format();
+std::string mode();
+std::string level();
+bool question();
+void bye();

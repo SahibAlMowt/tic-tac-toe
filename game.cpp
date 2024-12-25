@@ -1,4 +1,4 @@
-#include "game.h"
+#include "mylovelygame.h"
 
 void game::Tictactoe::printboard()
 {
@@ -24,16 +24,75 @@ void game::Tictactoe::printboard()
     std::cout << "\n";
 }
 
+void game::Tictactoe::update_score(const Gamer& player)
+{
+    if (player.name == player1.name) {
+        player1_wins++;
+    } else if (player.name == player2.name) {
+        player2_wins++;
+    } else if (player.name == "bot"){
+        bot_wins++;
+    }
+}
+
+std::string game::Tictactoe::give_score()
+{
+    if(player1_wins == 1){
+        return "yourwin";
+    }
+    if(player2_wins == 1){
+        return "opponentwin";
+    }
+    if(bot_wins == 1){
+        return "botwin";
+    }
+        
+}
+
+void game::Tictactoe::hnowValid(std::string& expression) {
+    size_t pos = 0;
+    while ((pos = expression.find(' ', pos)) != std::string::npos) {
+        expression.erase(pos, 1);
+    }
+    for (char& ch : expression) {
+        ch = std::tolower(static_cast<unsigned char>(ch));
+    }
+}
+
+bool game::Tictactoe::hisvalid(std::string& answer, int a)
+{
+    switch (a) {
+        case 1:
+            return (answer == "x" || answer == "o");
+        default:
+            return false;
+    }
+}
+
 game::Tictactoe::Tictactoe(size_t s, const std::string name1, const std::string name2)
 {
     size = s;
     board = std::vector<std::vector<char>>(s, std::vector<char>(s, ' '));
 
     char c;
-    std::cout << "what char ";
-    std::cin >> c;
+    std::string input;
+    while(true){
+        std::cout << "                  Choose what you will play for(X/O):\n";
+        std::getline(std::cin, input);
+        game::Tictactoe::hnowValid(input);
+        if(input == "stop"){
+            throw std::runtime_error("game ended");
+        }
+        if(!game::Tictactoe::hisvalid(input, 1)){
+            std::cerr << "       wrong answer, you can only input x or o(letters on keyboard)\n";
+            continue;
+        }
+        c = input[0];
+        break;
+    }
 
-    if(c == 'O')
+
+    if(c == 'o')
     {
         player1 = {name1, 'O', false};
         player2 = {name2, 'X', false};
@@ -52,6 +111,9 @@ game::Tictactoe::Tictactoe(size_t s, const std::string name1, const std::string 
 
 bool game::Tictactoe::move(size_t row, size_t col, char sym)
 {
+    if(row == 665 || col == 665){
+        throw std::runtime_error("game ended");
+    }
     if(row >= size || col >= size || board[row][col] != ' ')
     {
         return false;
@@ -63,32 +125,15 @@ bool game::Tictactoe::move(size_t row, size_t col, char sym)
 
 void game::Tictactoe::play_vs()
 {
-    bool current;
-    if(player1.sym == 'X')
-    {
-        current = true;
-    }
-    else
-    {
-        current = false;
-    }
-     
+    bool current = (player1.sym == 'X');
     bool gameplay = true;
 
     while(gameplay)
     {
         printboard();
 
-        const Gamer *player;
+        const Gamer* player = current ? &player1 : &player2;
 
-        if(current)
-        {
-            player = &player1;
-        }
-        else
-        {
-            player = &player2;
-        }
 
         std::cout << (*player).name << " play '" << (*player).sym << "'\t";
 
@@ -100,8 +145,7 @@ void game::Tictactoe::play_vs()
             {
                 std::cin.clear(); 
                 std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); 
-                std::cout << "dobavish syuda chto nujen int";
-            } 
+                std::cerr << "           You need to enter only number of your row and line";            } 
             else 
             {
                 break; 
@@ -117,7 +161,7 @@ void game::Tictactoe::play_vs()
             {
                 std::cin.clear(); 
                 std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); 
-                std::cout << "dobavish syuda chto nujen int";
+                std::cerr << "           You need to enter only number of your row and line";
             } 
             else 
             {
@@ -128,32 +172,26 @@ void game::Tictactoe::play_vs()
 
         if (!move(row, col, (*player).sym)) 
         {
-            std::cout << "try again.\n";
+            std::cerr << "this spot is not allowed for your sign, try again\n";
             continue;
         }
 
         if(win((*player).sym))
         {
             printboard();
-            std::cout << (*player).name << " wins\n";
+            std::cout << (*player).name << " wins! Congratulations!\n";
+            game::Tictactoe::update_score(*player);
             gameplay = false;
         }
         else if(draw())
         {
             printboard();
-            std::cout << "draw\n";
+            std::cout << "It's a draw, but you can try again :)\n";
             gameplay = false;
         }
         else
         {
-            if(current)
-            {
-                current = false;
-            }
-            else
-            {
-                current = true;
-            }
+            current = !current;
         }
     }
 }
@@ -219,15 +257,7 @@ bool game::Tictactoe::draw()
 
 void game::Tictactoe::play_ai_easy()
 {
-    bool current;
-    if(player1.sym == 'X')
-    {
-        current = true;
-    }
-    else
-    {
-        current = false;
-    }
+    bool current = (player1.sym == 'X');
 
     bool gameplay = true;
 
@@ -250,7 +280,7 @@ void game::Tictactoe::play_ai_easy()
                 {
                     std::cin.clear(); 
                     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); 
-                    std::cout << "dobavish syuda chto nujen int";
+                    std::cerr << "           You need to enter only number of your row and line";
                 } 
                 else 
                 {
@@ -267,7 +297,7 @@ void game::Tictactoe::play_ai_easy()
                 {
                     std::cin.clear(); 
                     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); 
-                    std::cout << "dobavish syuda chto nujen int";
+                    std::cerr << "           You need to enter only number of your row and line";
                 } 
                 else 
                 {
@@ -278,7 +308,7 @@ void game::Tictactoe::play_ai_easy()
 
             if (!move(row, col, (*player).sym)) 
             {
-                std::cout << "try again.\n";
+                std::cerr << "this spot is not allowed for your sign, try again\n";
                 continue;
             }
         } 
@@ -291,13 +321,14 @@ void game::Tictactoe::play_ai_easy()
         if(win((*player).sym))
         {
             printboard();
-            std::cout << (*player).name << " wins\n";
+            std::cout << (*player).name << " wins!\n";
+            game::Tictactoe::update_score(*player);
             gameplay = false;
         }
         else if(draw())
         {
             printboard();
-            std::cout << "draw\n";
+            std::cout << "It's a draw, but you can try again :)\n";
             gameplay = false;
         }
         else
@@ -323,17 +354,9 @@ void game::Tictactoe::bot_move()
     move(row, col, bot.sym);
 }
 
-void game::Tictactoe::play_ai_hard()
+void game::Tictactoe::play_ai_medium()
 {
-    bool current;
-    if(player1.sym == 'X')
-    {
-        current = true;
-    }
-    else
-    {
-        current = false;
-    }
+    bool current = (player1.sym == 'X');
 
     bool gameplay = true;
 
@@ -356,7 +379,7 @@ void game::Tictactoe::play_ai_hard()
                 {
                     std::cin.clear(); 
                     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); 
-                    std::cout << "dobavish syuda chto nujen int";
+                    std::cerr << "           You need to enter only number of your row and line";
                 } 
                 else 
                 {
@@ -373,7 +396,7 @@ void game::Tictactoe::play_ai_hard()
                 {
                     std::cin.clear(); 
                     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); 
-                    std::cout << "dobavish syuda chto nujen int";
+                    std::cerr << "           You need to enter only number of your row and line";
                 } 
                 else 
                 {
@@ -384,7 +407,7 @@ void game::Tictactoe::play_ai_hard()
 
             if (!move(row, col, (*player).sym)) 
             {
-                std::cout << "try again.\n";
+                std::cerr << "this spot is not allowed for your sign, try again\n";
                 continue;
             }
         } 
@@ -397,13 +420,14 @@ void game::Tictactoe::play_ai_hard()
         if(win((*player).sym))
         {
             printboard();
-            std::cout << (*player).name << " wins\n";
+            std::cout << (*player).name << " wins!\n";
+            game::Tictactoe::update_score(*player);
             gameplay = false;
         }
         else if(draw())
         {
             printboard();
-            std::cout << "draw\n";
+            std::cout << "It's a draw, but you can try again :)\n";
             gameplay = false;
         }
         else
@@ -454,96 +478,4 @@ void game::Tictactoe::bot_cmove()
 
     bot_move();
 }
-
-//----------------------------------------------------------------------------------------
-
-void game::Tictactoe::podsvetka() 
-{
-    std::string line = std::string(size * 4 - 1, '-'); 
-
-    for (size_t i = 0; i != size; i++)
-    {
-        for (size_t j = 0; j != size; j++)
-        {
-            
-            bool isHighlighted = (i == rgb_row_int()) || (j = rgb_col_int());
-            
-            if (isHighlighted)
-            {
-                std::cout << "\033[31m"; 
-            }
-            
-            std::cout << " " << board[i][j] << " ";
-            
-            if (isHighlighted)
-            {
-                std::cout << "\033[0m"; 
-            }
-            
-            if (j < size - 1)
-            {
-                std::cout << "|";
-            }
-        }
-        std::cout << "\n";
-
-        if (i < size - 1)
-        {
-            std::cout << line << "\n";
-        }
-    }
-    std::cout << "\n";
-}
-    
-
-bool game::Tictactoe::rgb_row(const std::vector<std::vector<char>> &matrix, int row) 
-{
-    char firstChar = matrix[row][0];
-    for (size_t col = 1; col < matrix.size(); col++) 
-    {
-        if (matrix[row][col] != firstChar) 
-        {
-            return false;
-        }
-    }
-    return true;
-}
-
-int game::Tictactoe::rgb_row_int()
-{
-    for(size_t i = 0; i < size; i++)
-    {
-        if(rgb_row(board, i))
-        {
-            return i;
-        }
-    }
-    return -1;
-}
-
-bool game::Tictactoe::rgb_col(const std::vector<std::vector<char>> &matrix, int col) 
-{
-    char firstChar = matrix[0][col];
-    for (size_t row = 1; row < matrix.size(); row++) 
-    {
-        if (matrix[row][col] != firstChar) 
-        {
-            return false;
-        }
-    }
-    return true;
-}
-
-int game::Tictactoe::rgb_col_int()
-{
-    for(size_t i = 0; i < size; i++)
-    {
-        if(rgb_col(board, i))
-        {
-            return i;
-        }
-    }
-    return -1;
-}
-
-//----------------------------------------------------------------------------------------
+       
