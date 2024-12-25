@@ -1,11 +1,9 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.29)
 project(tic_tac_toe)
 
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
 
-include_directories(.)
 
-add_executable(tic_tac_toe
-    exp.cpp
-    game.cpp
-    main.cpp)
+add_executable(tic_tac_toe exception.cpp game.cpp main.cpp)
+
+add_executable(tests test.cpp game.cpp exception.cpp)

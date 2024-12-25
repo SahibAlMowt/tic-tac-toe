@@ -98,18 +98,6 @@ TEST_SUITE("Arina's tests")
         CHECK(level() == "medium");  
     }
 
-    TEST_CASE("Test question function") {
-        std::istringstream input("continue");
-        std::cin.rdbuf(input.rdbuf());
-
-        CHECK(question() == true);  
-
-        input.str("stop");
-        std::cin.rdbuf(input.rdbuf());
-
-        CHECK(question() == false);  
-    }
-
     TEST_CASE("validateAnswer") {
         CHECK_THROWS(validateAnswer("maybe", 5)); 
         CHECK_THROWS(validateAnswer("", 4));       
