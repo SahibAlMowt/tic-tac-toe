@@ -1,4 +1,4 @@
-#include "game.h"
+#include "mylovelygame.h"
 
 void game::Tictactoe::printboard()
 {

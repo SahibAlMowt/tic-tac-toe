@@ -1,7 +1,7 @@
 #include <iostream>
 #include <string>
 #include <cctype>
-#include "game.h"
+#include "mylovelygame.h"
 #include <stdexcept>
 
 bool isvalid(const std::string& answer, int a) {
