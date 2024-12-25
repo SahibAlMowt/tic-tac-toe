@@ -21,6 +21,10 @@ namespace game
     private:
         size_t size;
 
+        int player1_wins = 0;
+        int player2_wins = 0;
+        int bot_wins = 0;
+
         std::vector<std::vector<char>> board;  
 
     public:
