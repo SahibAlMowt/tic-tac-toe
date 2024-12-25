@@ -379,7 +379,7 @@ void game::Tictactoe::play_ai_medium()
                 {
                     std::cin.clear(); 
                     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); 
-                    std::cerr << "           You need to enter only number of your row and line";
+                    std::cerr << "You need to enter only number of your row and line\n";
                 } 
                 else 
                 {
@@ -396,7 +396,7 @@ void game::Tictactoe::play_ai_medium()
                 {
                     std::cin.clear(); 
                     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); 
-                    std::cerr << "           You need to enter only number of your row and line";
+                    std::cerr << "You need to enter only number of your row and line\n";
                 } 
                 else 
                 {
