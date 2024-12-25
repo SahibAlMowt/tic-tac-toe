@@ -28,7 +28,17 @@ void nowValid(std::string& expression) {
     }
 }
 
+void nowValidname(std::string& expression) {
+    size_t pos = 0;
+    while ((pos = expression.find(' ', pos)) != std::string::npos) {
+        expression.erase(pos, 1);
+    }
+}
+
 void validateAnswer(const std::string& answer, int condition) {
+    if (answer.size() > 1000) {
+        throw std::invalid_argument("Input is too long. Please limit your response.");
+    }
     if (answer.empty()) {
         throw std::invalid_argument("To play this game, you need to answer us. Let's try again.");
     }

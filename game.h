@@ -66,3 +66,4 @@ std::string mode();
 std::string level();
 bool question();
 void bye();
+void nowValidname(std::string& expression);

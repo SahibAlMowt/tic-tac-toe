@@ -95,12 +95,25 @@ int main(){
         std::cout << "--------------------------------------------------------------------------------\n";
         std::cout << "                    Enter your nickname for this game:\n";
         std::getline(std::cin, name1);
-        
+        nowValidname(name1);
+        if(name1.empty()){
+            std::cout << "--------------------------------------------------------------------------------\n";
+            std::cout << "             You didn't enter your name, so it'll be player1\n";
+            name1 = "player1";
+        }
+
         if(ourmode == "player vs player"){
              while (true) {
                 try{
                     std::cout << "            Enter nickname of your opponent for this game:\n";
                     std::getline(std::cin, name2);
+                    nowValidname(name2);
+
+                    if(name2.empty()){
+                        std::cout << "--------------------------------------------------------------------------------\n";
+                        std::cout << "          You didn't enter name of your opponent, so it'll be player2\n";
+                        name2 = "player2";
+                    }
 
                     if (name1 == name2) {
                         throw std::invalid_argument("Player names cannot be the same. Please enter a different name for the 2nd player.\n");
@@ -117,17 +130,29 @@ int main(){
             std::cout << "While gaming you can leave the game by typing 666 in row or line number(or them both)\n";
             std::cout << "                             Good luck ^-^\n";
             std::cout << "--------------------------------------------------------------------------------\n";
-            game::Tictactoe tictactoe(n, name1, name2);
-            tictactoe.play_vs();
-            expression.clear();
-                expression = tictactoe.give_score();
-                if(expression == "yourwin"){
-                    yourwin++;
-                }else if(expression == "opponentwin"){
-                    opponentwin++;
-                }else if(expression == "botwin"){
-                    botwin++;
+            try{
+                game::Tictactoe tictactoe(n, name1, name2);
+                tictactoe.play_vs();
+                expression.clear();
+                    expression = tictactoe.give_score();
+                    if(expression == "yourwin"){
+                        yourwin++;
+                    }else if(expression == "opponentwin"){
+                        opponentwin++;
+                    }else if(expression == "botwin"){
+                        botwin++;
+                    }
+                }catch(const std::exception& e){
+                if(std::string(e.what()) == "game ended"){
+                    flag = 1;
+                }else{
+                    std::cerr << "error: " << e.what() << std::endl;
                 }
+            }
+            if(flag == 1){
+                bye();
+                break;
+            }
         }else if(ourmode == "player vs AI"){
             
             do{
