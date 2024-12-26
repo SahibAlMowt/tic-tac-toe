@@ -9,7 +9,7 @@
 
 1. Скачайте репозиторий.
 ```bash
-https://github.com/SahibAlMowt/tic-tac-toe.git
+git clone https://github.com/SahibAlMowt/tic-tac-toe.git
 ```
 2. Постройте проект в вашем любимом IDE (geany).
 3. В командной строке или терминале запускайте:
