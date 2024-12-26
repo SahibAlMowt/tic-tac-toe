@@ -6,6 +6,8 @@ TEST_SUITE("sam's tests")
 {
     TEST_CASE("bool win")
     {
+        std::istringstream input("x");
+        std::cin.rdbuf(input.rdbuf());
         game::Tictactoe examp(3 , "first", "second");
 
         examp.move(0, 0, 'X');
@@ -17,6 +19,8 @@ TEST_SUITE("sam's tests")
 
     TEST_CASE("bool draw")
     {
+        std::istringstream input("x");
+        std::cin.rdbuf(input.rdbuf());
         game::Tictactoe examp(3 , "first", "second");
 
         examp.move(0, 0, 'X');
@@ -34,6 +38,8 @@ TEST_SUITE("sam's tests")
 
     TEST_CASE("bool move")
     {
+        std::istringstream input("x");
+        std::cin.rdbuf(input.rdbuf());
         game::Tictactoe examp(3 , "first", "second");
 
         CHECK(examp.move(0, 0, 'X'));
