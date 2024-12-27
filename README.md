@@ -39,10 +39,15 @@ g++ main.cpp game.cpp exception.cpp -o tictactoe
 #### Как собрать проект с статической библиотекой:
 1. В `CMakeLists.txt` установите флаг:
 ```bash
-   cmake -DBUILD_SHARED_LIBS=OFF ..
+   BUILD_SHARED_LIBS "Build using shared libraries" OFF
 ```
-2. Выполните сборку:
+2. Выполните команды(1):
 ```bash
+   cmake -S . -B build
+```
+3. Выполните команды(2):
+```bash
+   cd build
    make
 ```
 ### Динамическая библиотека
@@ -52,12 +57,10 @@ g++ main.cpp game.cpp exception.cpp -o tictactoe
 #### Как собрать проект с динамической библиотекой:
 1. В `CMakeLists.txt` установите флаг:
 ```bash
-   cmake -DBUILD_SHARED_LIBS=ON ..
+   BUILD_SHARED_LIBS "Build using shared libraries" ON
 ```
-2. Выполните сборку:
-```bash
-   make
-```
+2. Выполните сборку также как и для статической биболиотеке
+
 ### Проверка
 
 - Для статической библиотеки: Исполняемые файлы включают всю библиотеку, и дополнительных файлов для запуска не требуется.
