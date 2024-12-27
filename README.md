@@ -48,6 +48,8 @@ g++ main.cpp game.cpp exception.cpp -o tictactoe
 3. Выполните команды(2):
 ```bash
    cd build
+```
+```bash
    make
 ```
 ### Динамическая библиотека
